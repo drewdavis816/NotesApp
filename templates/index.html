@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Note App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Notes App</h1>
+
+        <div class="form-section">
+            <h2>Create New Note</h2>
+            <form method="POST" action="/create_note">
+                <div class="form-group">
+                    <label>Note Title:</label>
+                    <input type="text" name="note_title" placeholder="e.g., Python Tips" required>
+                </div>
+                <div class="form-group">
+                    <label>Note Content:</label>
+                    <textarea name="note_content" placeholder="Write your note here..." required></textarea>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Note</button>
+            </form>
+
+        </div>
+        <h2>My Notes</h2>
+        {% if notes %}
+            <div class="notes-grid">
+                {% for note in notes %}
+                    <div class="note-card">
+                        <h3>{{ note.title }}</h3>
+                        <p>{{ note.content }}</p>
+                        <div class="note-actions">
+                            <form method="POST" action="/delete_note">
+                                <input type="hidden" name="note_title" value="{{ note.title }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">No notes yet. Create one above!</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>
